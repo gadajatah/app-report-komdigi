@@ -17,7 +17,17 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             PermissionSeeder::class,
             UserSeeder::class,
-            ReportSeeder::class,
         ]);
+
+        $usr2 = User::create([
+            'name' => 'Civil Account Beda',
+            'email' => 'civil2@komdigi.com',
+            'password' => bcrypt('komdigi'),
+            'email_verified_at' => now(),
+        ]);
+
+        $usr2->assignRole('civil');
+
+        $this->call(ReportSeeder::class);
     }
 }
