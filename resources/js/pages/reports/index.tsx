@@ -21,6 +21,7 @@ import Paginate from "@/components/paginate"
 import { DialogModal } from "@/components/dialog-modal"
 import ReportCreate from "./create"
 import ReportView from "./view"
+import ReportDelete from "./delete"
 
 interface ReportResource {
   id: number
@@ -146,21 +147,20 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                               setIsForm(false)
                               setSelectedData(item)
                             }}
-                            isDisabled
                           >
                             View
                           </MenuItem>
-                          {/* <MenuItem
+                          <MenuItem
                             onAction={() => {
                               setOpenModal(true)
                               setSelectedData(item)
-                              setModalTitle("Edit User")
-                              setModalDesc("Make sure all user data is filled in correctly")
+                              setModalTitle("Edit Report")
+                              setModalDesc("Make sure all Report data is filled in correctly")
                               setIsForm(true)
                             }}
                           >
                             Edit
-                          </MenuItem> */}
+                          </MenuItem>
                           <MenuSeparator />
                           <MenuItem
                             intent="danger"
@@ -168,7 +168,6 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                               setOpenModalDelete(true)
                               setSelectedData(item)
                             }}
-                            isDisabled
                           >
                             Delete
                           </MenuItem>
@@ -193,21 +192,21 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
         >
           {!isForm ? (
             <>
-              <ReportView user={selectedData} />
+              <ReportView report={selectedData} />
             </>
           ) : (
             <>
-              <ReportCreate setOpenModal={setOpenModal} user={selectedData} roles={roles} />
+              <ReportCreate setOpenModal={setOpenModal} report={selectedData} roles={roles} />
             </>
           )}
         </DialogModal>
 
-        {/* <PlanDelete
+        <ReportDelete
           openModalDelete={openModalDelete}
           setOpenModalDelete={setOpenModalDelete}
           onOpenChange={setOpenModalDelete}
           data={selectedData}
-        /> */}
+        />
       </Container>
     </>
   )

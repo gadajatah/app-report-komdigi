@@ -17,3 +17,4 @@
 - setup database with local database
 - php artisan migrate:fresh --seed
 - php artisan serve
+- Klik link/url local
