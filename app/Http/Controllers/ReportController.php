@@ -22,13 +22,8 @@ class ReportController extends Controller
                     ->orWhere('where_is', 'like', "%{$search}%")
                     ->orWhere('status', 'like', "%{$search}%");
             })
-            ->where('id', '!=', auth()->user()->id)
-            //  ->whereDoesntHave('roles', function ($q) {
-            //     $q->where('name', 'root');
-            //  })
-            ->with('roles')
             ->latest()
-            ->paginate(10)
+            ->paginate(9)
             ->withQueryString();
 
         return inertia('reports/index', [

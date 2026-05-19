@@ -21,6 +21,7 @@ import Paginate from "@/components/paginate"
 import { DialogModal } from "@/components/dialog-modal"
 import ReportCreate from "./create"
 import ReportView from "./view"
+import ReportDelete from "./delete"
 
 interface ReportResource {
   id: number
@@ -146,7 +147,6 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                               setIsForm(false)
                               setSelectedData(item)
                             }}
-                            isDisabled
                           >
                             View
                           </MenuItem>
@@ -168,7 +168,6 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                               setOpenModalDelete(true)
                               setSelectedData(item)
                             }}
-                            isDisabled
                           >
                             Delete
                           </MenuItem>
@@ -193,7 +192,7 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
         >
           {!isForm ? (
             <>
-              <ReportView user={selectedData} />
+              <ReportView report={selectedData} />
             </>
           ) : (
             <>
@@ -202,12 +201,12 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
           )}
         </DialogModal>
 
-        {/* <PlanDelete
+        <ReportDelete
           openModalDelete={openModalDelete}
           setOpenModalDelete={setOpenModalDelete}
           onOpenChange={setOpenModalDelete}
           data={selectedData}
-        /> */}
+        />
       </Container>
     </>
   )
