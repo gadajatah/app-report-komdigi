@@ -123,13 +123,20 @@ const MenuItem = ({ className, intent, children, ...props }: MenuItemProps) => {
       )}
       textValue={textValue}
       {...props}
-      render={(domProps) =>
-        "href" in domProps ? (
-          <InertiaLink {...(domProps as InertiaLinkProps)} />
+      render={(domProps) => {
+        const { href, onPointerDown, onPointerUp, onClick, ...rest } = domProps as any
+        return href ? (
+          <InertiaLink
+            {...(rest as InertiaLinkProps)}
+            href={href}
+            onPointerDown={onPointerDown}
+            onPointerUp={onPointerUp}
+            onClick={onClick}
+          />
         ) : (
-          <span {...domProps} />
+          <div {...(domProps as any)} />
         )
-      }
+      }}
     >
       {(values) => (
         <>
