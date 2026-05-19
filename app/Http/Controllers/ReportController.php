@@ -17,16 +17,15 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $reports = Report::query()
+            ->with('user')
             ->when($request->search, function ($query, $search) {
                 $query->where('title', 'like', "%{$search}%")
                     ->orWhere('where_is', 'like', "%{$search}%")
                     ->orWhere('status', 'like', "%{$search}%");
             });
 
-        if (auth()->user()->getRoleNames()[0] == "root") {
-            $reports = $reports;
-        } else {
-            $reports = $reports->where('id', '!=', auth()->user()->id);
+        if (auth()->user()->getRoleNames()[0] !== "root") {
+            $reports = $reports->where('user_id', auth()->user()->id); // ← filter by user_id
         }
 
         $reports = $reports->latest()

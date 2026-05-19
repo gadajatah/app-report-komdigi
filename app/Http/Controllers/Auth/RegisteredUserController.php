@@ -43,6 +43,8 @@ class RegisteredUserController extends Controller
             'address' => $request->address,
         ]);
 
+        $user->assignRole('civil');
+
         event(new Registered($user));
 
         Auth::login($user);

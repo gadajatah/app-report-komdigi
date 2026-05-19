@@ -95,6 +95,7 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
           <Table className="mt-4" aria-label="Tags">
             <TableHeader>
               <TableColumn isRowHeader>Masalah</TableColumn>
+              <TableColumn isRowHeader>Dari</TableColumn>
               <TableColumn>Alamat</TableColumn>
               <TableColumn>No.Ponsel</TableColumn>
               <TableColumn>Laporan</TableColumn>
@@ -115,6 +116,12 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                     }}
                   >
                     {item.title}
+                  </TableCell>
+                   <TableCell
+                    textValue={item.user.name}
+                    className={"text-gray-600 text-xs dark:text-gray-400"}
+                  >
+                    {item.user.name}
                   </TableCell>
                   <TableCell textValue={item.where_is}>{item.where_is}</TableCell>
                   <TableCell
