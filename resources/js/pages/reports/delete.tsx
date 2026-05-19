@@ -30,7 +30,7 @@ export default function ReportDelete({
   }
 
   return (
-    <>
+    <div>
       <Modal isOpen={openModalDelete} onOpenChange={setOpenModalDelete}>
         <ModalContent role="alertdialog">
           <ModalHeader>
@@ -53,6 +53,6 @@ export default function ReportDelete({
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </div>
   )
 }

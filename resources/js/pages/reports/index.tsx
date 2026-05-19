@@ -150,17 +150,17 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                           >
                             View
                           </MenuItem>
-                          {/* <MenuItem
+                          <MenuItem
                             onAction={() => {
                               setOpenModal(true)
                               setSelectedData(item)
-                              setModalTitle("Edit User")
-                              setModalDesc("Make sure all user data is filled in correctly")
+                              setModalTitle("Edit Report")
+                              setModalDesc("Make sure all Report data is filled in correctly")
                               setIsForm(true)
                             }}
                           >
                             Edit
-                          </MenuItem> */}
+                          </MenuItem>
                           <MenuSeparator />
                           <MenuItem
                             intent="danger"
@@ -196,7 +196,7 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
             </>
           ) : (
             <>
-              <ReportCreate setOpenModal={setOpenModal} user={selectedData} roles={roles} />
+              <ReportCreate setOpenModal={setOpenModal} report={selectedData} roles={roles} />
             </>
           )}
         </DialogModal>
