@@ -19,6 +19,7 @@ class ReportSeeder extends Seeder
             'where_is' => 'Komdigi Medan',
             'phone' => '082274040496',
             'image' => null,
+            // 'status' => 'menunggu',
             'report' => 'Perlu ada penambahan bangku agar daya tampung komdigi lebih banyak.',
         ]);
 
@@ -28,6 +29,7 @@ class ReportSeeder extends Seeder
             'where_is' => 'Komdigi Medan',
             'phone' => '082274040496',
             'image' => null,
+            // 'status' => 'menunggu',
             'report' => 'Perlu ada penambahan bangku agar daya tampung komdigi lebih banyak.',
         ]);
     }

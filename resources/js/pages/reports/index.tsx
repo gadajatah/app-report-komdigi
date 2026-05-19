@@ -131,7 +131,9 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                   >
                     {item.report ?? "-"}
                   </TableCell>
-                  <TableCell textValue={item.status}>{item.status}</TableCell>
+                  <TableCell className={"text-xs italic"} textValue={item.status}>
+                    {item.status ?? "menunggu"}
+                  </TableCell>
                   <TableCell>
                     <div className="flex justify-end">
                       <Menu>
