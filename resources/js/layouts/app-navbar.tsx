@@ -34,11 +34,6 @@ const navigations = [
     textValue: "Home",
     href: "/",
   },
-  {
-    name: "Lapordigi",
-    textValue: "Lapordigi",
-    href: "/report",
-  },
 ]
 
 export function AppNavbar({ children, ...props }: React.ComponentProps<typeof Navbar>) {
@@ -116,6 +111,9 @@ function UserMenu() {
         </MenuSection>
         <MenuItem href="/dashboard">
           <MenuLabel>Dashboard</MenuLabel>
+        </MenuItem>
+        <MenuItem href="/report">
+          <MenuLabel>Lapordigi</MenuLabel>
         </MenuItem>
         <MenuItem href="/settings/profile" className="justify-between">
           <MenuLabel>Update profile</MenuLabel>

@@ -42,7 +42,7 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
   const [openModalDelete, setOpenModalDelete] = useState(false)
   const [selectedData, setSelectedData] = useState<ReportResource | null>(null)
 
-  const [search, setSearch] = useState(filters.search ?? "")
+  const [_search, setSearch] = useState(filters.search ?? "")
 
   const handleSearch = useCallback(
     debounce((value: string) => {

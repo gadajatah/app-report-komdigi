@@ -61,7 +61,7 @@ export default function ReportCreate({ setOpenModal, report, roles }: any) {
               autoComplete="where_is"
               isRequired
             >
-              <Label>Masalah</Label>
+              <Label>Lokasi</Label>
               <Input placeholder="Enter a problem" />
               <FieldError className={"text-xs"} />
               {errors.where_is && <span className="text-danger text-xs">{errors.where_is}</span>}
