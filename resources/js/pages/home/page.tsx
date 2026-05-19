@@ -7,7 +7,7 @@ import { Container } from "@/components/ui/container"
 export default function Home() {
   return (
     <>
-      <Head title="Inertia Laravel Inertia Typescript" />
+      <Head title="LaporDigi" />
       <Container className="py-12">
         <CardHeader title="Laravel Inertia Typescript" description="Kamu ada page sekarang" />
       </Container>

@@ -1,5 +1,5 @@
 import AppLayout from "@/layouts/app-layout"
-import { Head, router } from "@inertiajs/react"
+import { Head, router, usePage } from "@inertiajs/react"
 import { Container } from "@/components/ui/container"
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -22,6 +22,7 @@ import { DialogModal } from "@/components/dialog-modal"
 import ReportCreate from "./create"
 import ReportView from "./view"
 import ReportDelete from "./delete"
+import type { SharedData } from "@/types/shared"
 
 interface ReportResource {
   id: number
@@ -32,6 +33,11 @@ interface ReportResource {
   report: string
 }
 export default function ReportIndex({ reports, roles, filters = {} }: any) {
+  const { auth } = usePage<SharedData>().props
+
+  const isRoot = auth.roles?.includes("root") ?? false
+  const canDelete = auth.permissions.includes("delete report")
+
   const { first, last, from, to, total, previous, next, pages } = usePaginator(reports)
 
   const [isForm, setIsForm] = useState(false)
@@ -76,20 +82,22 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
               <SearchField aria-label="Search" className={"w-70"}>
                 <SearchInput id="search" onInput={onSearchChange} placeholder="Search" />
               </SearchField>
-              <div className="ml-2">
-                <Button
-                  onPress={() => {
-                    setIsForm(true)
-                    setOpenModal(true)
-                    setSelectedData(null)
-                    setModalTitle("Add New Report")
-                    setModalDesc("Make sure all Report data is filled in correctly")
-                  }}
-                  intent="primary"
-                >
-                  New Report
-                </Button>
-              </div>
+              {!isRoot && (
+                <div className="ml-2">
+                  <Button
+                    onPress={() => {
+                      setIsForm(true)
+                      setOpenModal(true)
+                      setSelectedData(null)
+                      setModalTitle("Add New Report")
+                      setModalDesc("Make sure all Report data is filled in correctly")
+                    }}
+                    intent="primary"
+                  >
+                    New Report
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
           <Table className="mt-4" aria-label="Tags">
@@ -117,7 +125,7 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                   >
                     {item.title}
                   </TableCell>
-                   <TableCell
+                  <TableCell
                     textValue={item.user.name}
                     className={"text-gray-600 text-xs dark:text-gray-400"}
                   >
@@ -168,16 +176,19 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                           >
                             Edit
                           </MenuItem>
-                          <MenuSeparator />
-                          <MenuItem
-                            intent="danger"
-                            onAction={() => {
-                              setOpenModalDelete(true)
-                              setSelectedData(item)
-                            }}
-                          >
-                            Delete
-                          </MenuItem>
+                          {canDelete && <>
+                            <MenuSeparator />
+                            <MenuItem
+                                intent="danger"
+                                onAction={() => {
+                                setOpenModalDelete(true)
+                                setSelectedData(item)
+                                }}
+                            >
+                                Delete
+                            </MenuItem>
+
+                          </>}
                         </MenuContent>
                       </Menu>
                     </div>

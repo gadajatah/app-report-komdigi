@@ -38,7 +38,7 @@ class PermissionSeeder extends Seeder
         $role_permissions = collect([
             'root' => Permission::pluck('name')->toArray(),
             'civil' => [
-                'read report',
+                'read report', 'create report', 'update report'
             ],
         ]);
 
