@@ -32,8 +32,6 @@ interface ReportResource {
   report: string
 }
 export default function ReportIndex({ reports, roles, filters = {} }: any) {
-  console.log(reports)
-
   const { first, last, from, to, total, previous, next, pages } = usePaginator(reports)
 
   const [isForm, setIsForm] = useState(false)
@@ -198,7 +196,7 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
             </>
           ) : (
             <>
-              <ReportCreate setOpenModal={setOpenModal} report={selectedData} roles={roles} />
+              <ReportCreate setOpenModal={setOpenModal} laporan={selectedData} roles={roles} />
             </>
           )}
         </DialogModal>

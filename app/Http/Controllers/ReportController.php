@@ -44,19 +44,20 @@ class ReportController extends Controller
      */
     public function store(ReportRequest $request)
     {
-        $validated = $request->validated;
+        $validated = $request->validated();
 
         if ($validated) {
             DB::beginTransaction();
 
             try {
                 $report = new Report();
+                $report->user_id = auth()->user()->id;
                 $report->title = $validated['title'];
                 $report->where_is = $validated['where_is'];
                 $report->phone = $validated['phone'];
-                $report->image = $validated['image'];
+                $report->image = $validated['image'] ?? null;
                 $report->report = $validated['report'];
-                $report->status = $validated['status'] ?? 'menunggu';
+                $report->status = 'menunggu';
                 $report->save();
 
                 DB::commit();

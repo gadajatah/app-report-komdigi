@@ -26,7 +26,6 @@ class ReportRequest extends FormRequest
             'title' => 'required',
             'where_is' => 'required',
             'phone' => 'required',
-            'image' => 'nullable',
             'report' => 'required',
         ];
     }
