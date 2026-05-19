@@ -29,8 +29,8 @@ class UserSeeder extends Seeder
         ]);
 
         $users->each(function ($data, $role) {
-            $instaceUser = User::create($data);
-            $instaceUser->assignRole($role);
+            $instanceUser = User::create($data);
+            $instanceUser->assignRole($role);
         });
     }
 }

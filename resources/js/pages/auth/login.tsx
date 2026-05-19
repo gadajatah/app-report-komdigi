@@ -34,11 +34,13 @@ export default function Login(args: LoginProps) {
               <Label>Email</Label>
               <Input type="email" />
               <FieldError>{errors.email}</FieldError>
+              <span className="text-xs text-red-600 dark:text-red-400">{errors.email}</span>
             </TextField>
             <TextField name="password" autoComplete="current-password">
               <Label>Password</Label>
               <Input type="password" />
               <FieldError>{errors.password}</FieldError>
+              <span className="text-xs text-red-600 dark:text-red-400">{errors.password}</span>
             </TextField>
             <div className="flex items-center justify-between">
               <Checkbox name="remember">Remember me</Checkbox>
