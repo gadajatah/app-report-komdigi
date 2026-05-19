@@ -18,17 +18,20 @@ import { Button } from "@/components/ui/button"
 import { debounce } from "lodash"
 import { usePaginator } from "momentum-paginator"
 import Paginate from "@/components/paginate"
+import { DialogModal } from "@/components/dialog-modal"
+import ReportCreate from "./create"
+import ReportView from "./view"
 
 interface ReportResource {
-    id : number
-    title : string
-    where_is : string
-    phone : string
-    image : string
-    report : string
+  id: number
+  title: string
+  where_is: string
+  phone: string
+  image: string
+  report: string
 }
 export default function ReportIndex({ reports, roles, filters = {} }: any) {
-    console.log(reports);
+  console.log(reports)
 
   const { first, last, from, to, total, previous, next, pages } = usePaginator(reports)
 
@@ -127,9 +130,7 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                   >
                     {item.report ?? "-"}
                   </TableCell>
-                  <TableCell textValue={item.status}>
-                    {item.status}
-                  </TableCell>
+                  <TableCell textValue={item.status}>{item.status}</TableCell>
                   <TableCell>
                     <div className="flex justify-end">
                       <Menu>
@@ -183,6 +184,23 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
             <Paginate first={first} last={last} previous={previous} next={next} pages={pages} />
           </div>
         </div>
+
+        <DialogModal
+          openModal={openModal}
+          onOpenChange={setOpenModal}
+          title={modalTitle}
+          description={modalDesc}
+        >
+          {!isForm ? (
+            <>
+              <ReportView user={selectedData} />
+            </>
+          ) : (
+            <>
+              <ReportCreate setOpenModal={setOpenModal} user={selectedData} roles={roles} />
+            </>
+          )}
+        </DialogModal>
 
         {/* <PlanDelete
           openModalDelete={openModalDelete}

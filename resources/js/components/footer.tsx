@@ -1,9 +1,5 @@
 import type { SVGProps } from "react"
-import { Button } from "@/components/ui/button"
 import { Link } from "@/components/ui/link"
-import { TextField } from "@/components/ui/text-field"
-import { Input } from "@/components/ui/input"
-import { FieldError } from "@/components/ui/field"
 
 const navigation = {
   solutions: [
@@ -104,7 +100,11 @@ export function Footer() {
         <div className="mt-16 border-slate-900/10 border-t pt-8 sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24">
           <p className="mt-8 text-muted-fg text-xs leading-5 md:order-1 md:mt-0">
             &copy; 2026 Skill test Komdigi Medan by{" "}
-            <Link target="_blank" href="https://instagram.com/jhon.grsng" className="font-semibold text-fg">
+            <Link
+              target="_blank"
+              href="https://instagram.com/jhon.grsng"
+              className="font-semibold text-fg"
+            >
               Jhon Vebrianto Girsang
             </Link>
           </p>

@@ -9,10 +9,7 @@ export default function Home() {
     <>
       <Head title="Inertia Laravel Starter kit" />
       <Container className="py-12">
-        <CardHeader
-          title="Laravel Starter Kit"
-          description="Kamu ada page sekarang"
-        />
+        <CardHeader title="Laravel Starter Kit" description="Kamu ada page sekarang" />
       </Container>
     </>
   )
