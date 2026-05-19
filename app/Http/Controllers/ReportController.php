@@ -56,7 +56,7 @@ class ReportController extends Controller
                 $report->phone = $validated['phone'];
                 $report->image = $validated['image'];
                 $report->report = $validated['report'];
-                $report->status = 'menunggu';
+                $report->status = $validated['status'] ?? 'menunggu';
                 $report->save();
 
                 DB::commit();
@@ -86,7 +86,7 @@ class ReportController extends Controller
                 'phone' => $validated['phone'],
                 'image' => $validated['image'],
                 'report' => $validated['report'],
-                'status' => $validated['status'],
+                'status' => $validated['status'] ?? 'menunggu',
             ]);
         }
     }

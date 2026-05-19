@@ -16,5 +16,6 @@ class Report extends Model
         'phone',
         'image',
         'report',
+        'status',
     ];
 }
