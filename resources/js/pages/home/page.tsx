@@ -11,7 +11,7 @@ export default function Home() {
       <Container className="py-12">
         <CardHeader
           title="Laravel Starter Kit"
-          description="A fully-featured Laravel starter kit built with Intent UI, offering a clean foundation for modern web apps."
+          description="Kamu ada page sekarang"
         />
       </Container>
     </>

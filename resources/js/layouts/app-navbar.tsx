@@ -34,6 +34,11 @@ const navigations = [
     textValue: "Home",
     href: "/",
   },
+  {
+    name: "Lapordigi",
+    textValue: "Lapordigi",
+    href: "/report",
+  },
 ]
 
 export function AppNavbar({ children, ...props }: React.ComponentProps<typeof Navbar>) {

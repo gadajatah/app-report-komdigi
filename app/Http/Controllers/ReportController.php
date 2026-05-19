@@ -3,18 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReportRequest;
+use App\Http\Resources\ReportResource;
 use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class ReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return inertia('reports/index');
+        $reports = Report::query()
+            ->when($request->search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('where_is', 'like', "%{$search}%")
+                    ->orWhere('status', 'like', "%{$search}%");
+            })
+            ->where('id', '!=', auth()->user()->id)
+            //  ->whereDoesntHave('roles', function ($q) {
+            //     $q->where('name', 'root');
+            //  })
+            ->with('roles')
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return inertia('reports/index', [
+            'reports' => fn () => ReportResource::collection($reports),
+            'roles' => Role::query()->select(['id', 'name'])->get(),
+        ]);
     }
 
     /**
