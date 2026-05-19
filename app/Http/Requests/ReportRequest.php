@@ -12,7 +12,7 @@ class ReportRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,11 @@ class ReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required',
+            'where_is' => 'required',
+            'phone' => 'required',
+            'image' => 'nullable',
+            'report' => 'required',
         ];
     }
 }

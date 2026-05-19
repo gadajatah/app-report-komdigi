@@ -20,7 +20,13 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('image')->nullable();
             $table->longText('report');
+            $table->enum('statu', [
+                'menunggu',
+                'proses',
+                'selesai'
+            ])->default('menunggu');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
