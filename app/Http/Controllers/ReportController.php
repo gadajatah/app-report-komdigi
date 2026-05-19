@@ -21,8 +21,15 @@ class ReportController extends Controller
                 $query->where('title', 'like', "%{$search}%")
                     ->orWhere('where_is', 'like', "%{$search}%")
                     ->orWhere('status', 'like', "%{$search}%");
-            })
-            ->latest()
+            });
+
+        if (auth()->user()->getRoleNames()[0] == "root") {
+            $reports = $reports;
+        } else {
+            $reports = $reports->where('id', '!=', auth()->user()->id);
+        }
+
+        $reports = $reports->latest()
             ->paginate(9)
             ->withQueryString();
 
@@ -49,6 +56,7 @@ class ReportController extends Controller
                 $report->phone = $validated['phone'];
                 $report->image = $validated['image'];
                 $report->report = $validated['report'];
+                $report->status = 'menunggu';
                 $report->save();
 
                 DB::commit();
@@ -67,9 +75,20 @@ class ReportController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Report $report)
+    public function update(ReportRequest $request, Report $report)
     {
-        //
+        $validated = $request->validated();
+
+        if ($validated) {
+            $report->update([
+                'title' => $validated['title'],
+                'where_is' => $validated['where_is'],
+                'phone' => $validated['phone'],
+                'image' => $validated['image'],
+                'report' => $validated['report'],
+                'status' => $validated['status'],
+            ]);
+        }
     }
 
     /**

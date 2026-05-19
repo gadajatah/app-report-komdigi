@@ -21,5 +21,14 @@ class ReportSeeder extends Seeder
             'image' => null,
             'report' => 'Perlu ada penambahan bangku agar daya tampung komdigi lebih banyak.',
         ]);
+
+        Report::create([
+            'user_id' => 3,
+            'title' => 'Kekurangan Bangku',
+            'where_is' => 'Komdigi Medan',
+            'phone' => '082274040496',
+            'image' => null,
+            'report' => 'Perlu ada penambahan bangku agar daya tampung komdigi lebih banyak.',
+        ]);
     }
 }

@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             ],
             'civil' => [
                 'name' => 'Civil Account',
-                'email' => 'owner@komdigi.com',
+                'email' => 'civil@komdigi.com',
                 'password' => bcrypt('komdigi'),
                 'email_verified_at' => now(),
             ],
