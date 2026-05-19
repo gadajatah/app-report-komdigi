@@ -57,12 +57,6 @@ export function AppNavbar({ children, ...props }: React.ComponentProps<typeof Na
               {item.name}
             </NavbarItem>
           ))}
-          <NavbarItem target="_blank" href="https://intentui.com" className="justify-between">
-            Documentation
-          </NavbarItem>
-          <NavbarItem target="_blank" href="https://design.intentui.com">
-            Blocks
-          </NavbarItem>
         </NavbarSection>
         <NavbarSpacer />
         <NavbarSection className="ml-auto hidden gap-x-2 lg:flex">
