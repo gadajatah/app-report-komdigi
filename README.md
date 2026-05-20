@@ -18,3 +18,7 @@
 - php artisan migrate:fresh --seed
 - php artisan serve
 - Klik link/url local
+
+
+#### Lapor Digi UI
+![alt text](<Screenshot 2026-05-20 at 07.19.42.png>)
