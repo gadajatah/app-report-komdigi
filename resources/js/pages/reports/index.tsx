@@ -1,5 +1,5 @@
 import AppLayout from "@/layouts/app-layout"
-import { Head, router } from "@inertiajs/react"
+import { Head, router, usePage } from "@inertiajs/react"
 import { Container } from "@/components/ui/container"
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -22,6 +22,7 @@ import { DialogModal } from "@/components/dialog-modal"
 import ReportCreate from "./create"
 import ReportView from "./view"
 import ReportDelete from "./delete"
+import type { SharedData } from "@/types/shared"
 
 interface ReportResource {
   id: number
@@ -32,7 +33,10 @@ interface ReportResource {
   report: string
 }
 export default function ReportIndex({ reports, roles, filters = {} }: any) {
-  console.log(reports)
+  const { auth } = usePage<SharedData>().props
+
+  const isRoot = auth.roles?.includes("root") ?? false
+  const canDelete = auth.permissions.includes("delete report")
 
   const { first, last, from, to, total, previous, next, pages } = usePaginator(reports)
 
@@ -64,6 +68,18 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
     handleSearch(e.target.value)
   }
 
+  const updateStatus = (id: number, status: string) => {
+    router.post(
+      `/report/${id}/update`,
+      { _method: "PATCH", status },
+      {
+        preserveScroll: true,
+        onSuccess: () => console.log("success"),
+        onError: (e) => console.log("error", e),
+      },
+    )
+  }
+
   return (
     <>
       <Head title="Reports" />
@@ -78,25 +94,28 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
               <SearchField aria-label="Search" className={"w-70"}>
                 <SearchInput id="search" onInput={onSearchChange} placeholder="Search" />
               </SearchField>
-              <div className="ml-2">
-                <Button
-                  onPress={() => {
-                    setIsForm(true)
-                    setOpenModal(true)
-                    setSelectedData(null)
-                    setModalTitle("Add New Report")
-                    setModalDesc("Make sure all Report data is filled in correctly")
-                  }}
-                  intent="primary"
-                >
-                  New Report
-                </Button>
-              </div>
+              {!isRoot && (
+                <div className="ml-2">
+                  <Button
+                    onPress={() => {
+                      setIsForm(true)
+                      setOpenModal(true)
+                      setSelectedData(null)
+                      setModalTitle("Add New Report")
+                      setModalDesc("Make sure all Report data is filled in correctly")
+                    }}
+                    intent="primary"
+                  >
+                    New Report
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
           <Table className="mt-4" aria-label="Tags">
             <TableHeader>
               <TableColumn isRowHeader>Masalah</TableColumn>
+              <TableColumn isRowHeader>Dari</TableColumn>
               <TableColumn>Alamat</TableColumn>
               <TableColumn>No.Ponsel</TableColumn>
               <TableColumn>Laporan</TableColumn>
@@ -118,6 +137,12 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                   >
                     {item.title}
                   </TableCell>
+                  <TableCell
+                    textValue={item.user.name}
+                    className={"text-gray-600 text-xs dark:text-gray-400"}
+                  >
+                    {item.user.name}
+                  </TableCell>
                   <TableCell textValue={item.where_is}>{item.where_is}</TableCell>
                   <TableCell
                     textValue={item.phone}
@@ -131,8 +156,18 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                   >
                     {item.report ?? "-"}
                   </TableCell>
-                  <TableCell className={"text-xs italic"} textValue={item.status}>
-                    {item.status ?? "menunggu"}
+                  <TableCell className={"text-xs italic capitalize"} textValue={item.status}>
+                    <span
+                      className={
+                        item?.status === "proses"
+                          ? "text-yellow-500"
+                          : item?.status === "selesai"
+                            ? "text-green-500"
+                            : "text-gray-400"
+                      }
+                    >
+                      {item?.status ?? "menunggu"}
+                    </span>
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-end">
@@ -141,6 +176,31 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                           <EllipsisVerticalIcon />
                         </MenuTrigger>
                         <MenuContent aria-label="Actions" placement="left top">
+                          {isRoot && (
+                            <>
+                              <MenuItem
+                                onAction={() => {
+                                  console.log("clicked proses", item.id)
+                                  updateStatus(item.id, "proses")
+                                }}
+                              >
+                                Proses
+                              </MenuItem>
+                              <MenuItem onAction={() => updateStatus(item.id, "selesai")}>
+                                Selesai
+                              </MenuItem>
+                              <MenuSeparator />
+                              <MenuItem
+                                intent="danger"
+                                onAction={() => {
+                                  setOpenModalDelete(true)
+                                  setSelectedData(item)
+                                }}
+                              >
+                                Delete
+                              </MenuItem>
+                            </>
+                          )}
                           <MenuItem
                             onAction={() => {
                               setOpenModal(true)
@@ -163,16 +223,20 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                           >
                             Edit
                           </MenuItem>
-                          <MenuSeparator />
-                          <MenuItem
-                            intent="danger"
-                            onAction={() => {
-                              setOpenModalDelete(true)
-                              setSelectedData(item)
-                            }}
-                          >
-                            Delete
-                          </MenuItem>
+                          {canDelete && (
+                            <>
+                              <MenuSeparator />
+                              <MenuItem
+                                intent="danger"
+                                onAction={() => {
+                                  setOpenModalDelete(true)
+                                  setSelectedData(item)
+                                }}
+                              >
+                                Delete
+                              </MenuItem>
+                            </>
+                          )}
                         </MenuContent>
                       </Menu>
                     </div>
@@ -198,7 +262,7 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
             </>
           ) : (
             <>
-              <ReportCreate setOpenModal={setOpenModal} report={selectedData} roles={roles} />
+              <ReportCreate setOpenModal={setOpenModal} laporan={selectedData} roles={roles} />
             </>
           )}
         </DialogModal>

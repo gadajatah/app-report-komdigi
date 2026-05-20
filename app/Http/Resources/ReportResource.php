@@ -22,6 +22,11 @@ class ReportResource extends JsonResource
             'phone' => $this->phone,
             'image' => $this->image,
             'report' => $this->report,
+            'status' => $this->status ?? '-',
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+            ]
         ];
     }
 }

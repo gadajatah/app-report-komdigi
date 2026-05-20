@@ -10,21 +10,18 @@ export function DialogModal({
   isBlurred = false,
 }: any) {
   return (
-    <>
-      <Modal>
-        <ModalContent
-          isOpen={openModal}
-          onOpenChange={onOpenChange}
-          size={size ?? "2xl"}
-          shouldCloseOnInteractOutside={(e: Element) => false}
-        >
-          <ModalHeader>
-            <ModalTitle>{title}</ModalTitle>
-            <ModalDescription>{description ?? ""}</ModalDescription>
-          </ModalHeader>
-          {children}
-        </ModalContent>
-      </Modal>
-    </>
+    <Modal isOpen={openModal} onOpenChange={onOpenChange}>
+      <ModalContent
+        size={size ?? "2xl"}
+        isBlurred={isBlurred}
+        shouldCloseOnInteractOutside={() => false}
+      >
+        <ModalHeader>
+          <ModalTitle>{title}</ModalTitle>
+          <ModalDescription>{description ?? ""}</ModalDescription>
+        </ModalHeader>
+        {children}
+      </ModalContent>
+    </Modal>
   )
 }

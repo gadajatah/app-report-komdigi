@@ -7,18 +7,18 @@ import { Textarea } from "@/components/ui/textarea"
 import { useForm } from "@inertiajs/react"
 import { Form } from "react-aria-components"
 
-export default function ReportCreate({ setOpenModal, report, roles }: any) {
+export default function ReportCreate({ setOpenModal, laporan, roles }: any) {
   const { data, setData, post, patch, errors, processing, recentlySuccessful, reset } = useForm({
-    title: report?.title ?? "",
-    where_is: report?.where_is ?? "",
-    phone: report?.phone ?? "",
-    report: report?.report ?? "",
+    title: laporan?.title ?? "",
+    where_is: laporan?.where_is ?? "",
+    phone: laporan?.phone ?? "",
+    report: laporan?.report ?? "",
   })
 
   const submit = (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    if (report) {
-      patch(route("report.update", report), {
+    if (laporan) {
+      patch(route("report.update", laporan.id), {
         onSuccess: () => {
           console.log("success edited")
           setOpenModal(false)
@@ -91,7 +91,7 @@ export default function ReportCreate({ setOpenModal, report, roles }: any) {
         </div>
       </ModalBody>
       <ModalFooter>
-        <ModalClose>Cancel</ModalClose>
+        <ModalClose type="button">Cancel</ModalClose>
         <Button type="submit" isDisabled={processing} intent="primary">
           Submit.
         </Button>

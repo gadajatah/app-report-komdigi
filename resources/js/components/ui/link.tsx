@@ -24,13 +24,14 @@ export function Link({ className, ref, ...props }: LinkProps) {
         ],
         className,
       )}
-      render={(domProps) =>
-        "href" in domProps ? (
+      render={(domProps) => {
+        const { href } = domProps as any
+        return href ? (
           <InertiaLink {...(props as InertiaLinkProps)} {...(domProps as InertiaLinkProps)} />
         ) : (
           <span {...domProps} />
         )
-      }
+      }}
       {...(props as LinkPrimitiveProps)}
     />
   )

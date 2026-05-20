@@ -8,7 +8,12 @@ export type FlashProps = {
 export interface SharedData {
   name: string
   quote: { message: string; author: string }
-  auth: Auth
+  auth:  Auth & {
+    roles: string[]
+    permissions: string[]
+  }
+  roles_data: string[]
+  permissions: string[]
   sidebarOpen: boolean
   flash: FlashProps
 

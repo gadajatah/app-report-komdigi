@@ -17,16 +17,15 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $reports = Report::query()
+            ->with('user')
             ->when($request->search, function ($query, $search) {
                 $query->where('title', 'like', "%{$search}%")
                     ->orWhere('where_is', 'like', "%{$search}%")
                     ->orWhere('status', 'like', "%{$search}%");
             });
 
-        if (auth()->user()->getRoleNames()[0] == "root") {
-            $reports = $reports;
-        } else {
-            $reports = $reports->where('id', '!=', auth()->user()->id);
+        if (auth()->user()->getRoleNames()[0] !== "root") {
+            $reports = $reports->where('user_id', auth()->user()->id); // ← filter by user_id
         }
 
         $reports = $reports->latest()
@@ -44,19 +43,20 @@ class ReportController extends Controller
      */
     public function store(ReportRequest $request)
     {
-        $validated = $request->validated;
+        $validated = $request->validated();
 
         if ($validated) {
             DB::beginTransaction();
 
             try {
                 $report = new Report();
+                $report->user_id = auth()->user()->id;
                 $report->title = $validated['title'];
                 $report->where_is = $validated['where_is'];
                 $report->phone = $validated['phone'];
-                $report->image = $validated['image'];
+                $report->image = $validated['image'] ?? null;
                 $report->report = $validated['report'];
-                $report->status = $validated['status'] ?? 'menunggu';
+                $report->status = 'menunggu';
                 $report->save();
 
                 DB::commit();
@@ -80,14 +80,19 @@ class ReportController extends Controller
         $validated = $request->validated();
 
         if ($validated) {
-            $report->update([
-                'title' => $validated['title'],
-                'where_is' => $validated['where_is'],
-                'phone' => $validated['phone'],
-                'image' => $validated['image'],
-                'report' => $validated['report'],
-                'status' => $validated['status'] ?? 'menunggu',
-            ]);
+            DB::beginTransaction();
+            try {
+                $report->update($validated);
+            DB::commit();
+            flash('Laporan berhasil di perbaharui');
+            } catch (\Exception $e) {
+                DB::rollBack();
+
+                info("error-update-report", [
+                    'message' => $e->getMessage(),
+                ]);
+                flash('Server error.', [], 'error');
+            }
         }
     }
 

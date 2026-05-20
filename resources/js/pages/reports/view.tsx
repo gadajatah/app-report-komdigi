@@ -49,7 +49,7 @@ export default function ReportView({ report }: any) {
         </div>
       </ModalBody>
       <ModalFooter>
-        <ModalClose>Cancel</ModalClose>
+        <ModalClose type="button">Cancel</ModalClose>
       </ModalFooter>
     </Form>
   )

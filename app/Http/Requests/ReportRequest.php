@@ -23,11 +23,11 @@ class ReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
-            'where_is' => 'required',
-            'phone' => 'required',
-            'image' => 'nullable',
-            'report' => 'required',
+        'title'    => 'sometimes|nullable|string',
+        'where_is' => 'sometimes|nullable|string',
+        'phone'    => 'sometimes|nullable|string',
+        'report'   => 'sometimes|nullable|string',
+        'status'   => 'sometimes|nullable|in:menunggu,proses,selesai',
         ];
     }
 }

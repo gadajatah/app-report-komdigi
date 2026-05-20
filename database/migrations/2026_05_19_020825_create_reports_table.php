@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('image')->nullable();
             $table->longText('report');
-            $table->enum('statu', [
+            $table->enum('status', [
                 'menunggu',
                 'proses',
                 'selesai'

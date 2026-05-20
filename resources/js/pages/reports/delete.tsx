@@ -41,7 +41,7 @@ export default function ReportDelete({
             </ModalDescription>
           </ModalHeader>
           <ModalFooter>
-            <ModalClose>Cancel</ModalClose>
+            <ModalClose type="button">Cancel</ModalClose>
             <Button
               onPress={() => {
                 DataDelete(data)
