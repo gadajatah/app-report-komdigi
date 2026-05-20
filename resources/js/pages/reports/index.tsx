@@ -68,6 +68,18 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
     handleSearch(e.target.value)
   }
 
+  const updateStatus = (id: number, status: string) => {
+    router.post(
+      `/report/${id}/update`,
+      { _method: "PATCH", status },
+      {
+        preserveScroll: true,
+        onSuccess: () => console.log("success"),
+        onError: (e) => console.log("error", e),
+      },
+    )
+  }
+
   return (
     <>
       <Head title="Reports" />
@@ -144,8 +156,18 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                   >
                     {item.report ?? "-"}
                   </TableCell>
-                  <TableCell className={"text-xs italic"} textValue={item.status}>
-                    {item.status ?? "menunggu"}
+                  <TableCell className={"text-xs italic capitalize"} textValue={item.status}>
+                    <span
+                      className={
+                        item?.status === "proses"
+                          ? "text-yellow-500"
+                          : item?.status === "selesai"
+                            ? "text-green-500"
+                            : "text-gray-400"
+                      }
+                    >
+                      {item?.status ?? "menunggu"}
+                    </span>
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-end">
@@ -154,6 +176,31 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                           <EllipsisVerticalIcon />
                         </MenuTrigger>
                         <MenuContent aria-label="Actions" placement="left top">
+                          {isRoot && (
+                            <>
+                              <MenuItem
+                                onAction={() => {
+                                  console.log("clicked proses", item.id)
+                                  updateStatus(item.id, "proses")
+                                }}
+                              >
+                                Proses
+                              </MenuItem>
+                              <MenuItem onAction={() => updateStatus(item.id, "selesai")}>
+                                Selesai
+                              </MenuItem>
+                              <MenuSeparator />
+                              <MenuItem
+                                intent="danger"
+                                onAction={() => {
+                                  setOpenModalDelete(true)
+                                  setSelectedData(item)
+                                }}
+                              >
+                                Delete
+                              </MenuItem>
+                            </>
+                          )}
                           <MenuItem
                             onAction={() => {
                               setOpenModal(true)
@@ -176,19 +223,20 @@ export default function ReportIndex({ reports, roles, filters = {} }: any) {
                           >
                             Edit
                           </MenuItem>
-                          {canDelete && <>
-                            <MenuSeparator />
-                            <MenuItem
+                          {canDelete && (
+                            <>
+                              <MenuSeparator />
+                              <MenuItem
                                 intent="danger"
                                 onAction={() => {
-                                setOpenModalDelete(true)
-                                setSelectedData(item)
+                                  setOpenModalDelete(true)
+                                  setSelectedData(item)
                                 }}
-                            >
+                              >
                                 Delete
-                            </MenuItem>
-
-                          </>}
+                              </MenuItem>
+                            </>
+                          )}
                         </MenuContent>
                       </Menu>
                     </div>

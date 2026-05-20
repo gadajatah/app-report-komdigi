@@ -80,14 +80,19 @@ class ReportController extends Controller
         $validated = $request->validated();
 
         if ($validated) {
-            $report->update([
-                'title' => $validated['title'],
-                'where_is' => $validated['where_is'],
-                'phone' => $validated['phone'],
-                'image' => $validated['image'],
-                'report' => $validated['report'],
-                'status' => $validated['status'] ?? 'menunggu',
-            ]);
+            DB::beginTransaction();
+            try {
+                $report->update($validated);
+            DB::commit();
+            flash('Laporan berhasil di perbaharui');
+            } catch (\Exception $e) {
+                DB::rollBack();
+
+                info("error-update-report", [
+                    'message' => $e->getMessage(),
+                ]);
+                flash('Server error.', [], 'error');
+            }
         }
     }
 

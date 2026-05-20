@@ -24,4 +24,9 @@ class Report extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'id';
+    }
 }

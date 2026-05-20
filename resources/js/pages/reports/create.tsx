@@ -18,7 +18,7 @@ export default function ReportCreate({ setOpenModal, laporan, roles }: any) {
   const submit = (e: { preventDefault: () => void }) => {
     e.preventDefault()
     if (laporan) {
-      patch(route("report.update", laporan), {
+      patch(route("report.update", laporan.id), {
         onSuccess: () => {
           console.log("success edited")
           setOpenModal(false)
